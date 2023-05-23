@@ -1,0 +1,12 @@
+def task(n, e):
+    print(n, e)
+
+
+t = int(input())
+for i in range(0, t):
+    n = int(input())
+    e = []
+    for i in range(n - 1):
+        u, v = map(int, input().split())
+        e.append([u, v])
+    task(n, e)

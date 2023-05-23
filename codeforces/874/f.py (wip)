@@ -1,0 +1,39 @@
+def task(n, m, a):
+    MOD = 1000000007
+    a.sort()
+    uniqs = list(set(a))
+    counters = {}
+
+    for i in uniqs:
+        counters[i] = 0
+
+    for i in a:
+        counters[i] += 1
+
+    l = 0
+    r = 0
+    balance = counters[uniqs[l]]
+    total = 0
+
+    while True:
+        diff = r - l
+        if diff < m - 1:
+            r += 1
+            if r >= len(uniqs):
+                break
+            balance = (balance * counters[uniqs[r]]) % MOD
+        elif diff == m - 1:
+            if uniqs[r] - uniqs[l] == diff:
+                total = (total + balance) % MOD
+
+            balance = int(balance / counters[uniqs[l]])
+            l += 1
+
+    print(total)
+
+
+t = int(input())
+for i in range(0, t):
+    n, m = map(int, input().split())
+    a = list(map(int, input().split()))
+    task(n, m, a)
