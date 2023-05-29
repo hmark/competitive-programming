@@ -1,0 +1,36 @@
+import math
+
+
+def task(n, k, a):
+    b = sorted(a, reverse=True)
+    cache = {}
+
+    for i in range(n - k):
+        if not b[i] in cache:
+            cache[b[i]] = 0
+        cache[b[i]] += 1
+
+    c = []
+
+    for i in range(n):
+        if a[i] in cache and cache[a[i]] > 0:
+            cache[a[i]] -= 1
+        else:
+            c.append(a[i])
+
+    sm = sum(c)
+    mx = sm
+
+    curr = 0
+    for i in range(k):
+        curr += c[i]
+        mx = min(mx, max(sm - curr, curr))
+
+    print(mx)
+
+
+t = int(input())
+for i in range(0, t):
+    n, k = map(int, input().split())
+    a = list(map(int, input().split()))
+    task(n, k, a)
