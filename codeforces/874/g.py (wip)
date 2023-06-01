@@ -1,5 +1,108 @@
+def remove_branch(tree, parent, leaf):
+    tree[parent].remove(leaf)
+    tree[leaf].remove(parent)
+
+    if len(tree[parent]) == 0:
+        del tree[parent]
+
+    if len(tree[leaf]) == 0:
+        del tree[leaf]
+
+
 def task(n, e):
-    print(n, e)
+    if n % 3 != 0:
+        print(-1)
+        return
+
+    tree = {}
+    edges = {}
+
+    for i in range(n - 1):
+        u, v = e[i]
+
+        if not u in tree:
+            tree[u] = set()
+
+        if not v in tree:
+            tree[v] = set()
+
+        tree[u].add(v)
+        tree[v].add(u)
+
+        if not u in edges:
+            edges[u] = {}
+
+        if not v in edges:
+            edges[v] = {}
+
+        edges[u][v] = i + 1
+        edges[v][u] = i + 1
+
+    ans = 0
+    cuts = []
+    found = True
+
+    while found and len(tree) > 3:
+        found = False
+        leafs = set()
+
+        for u in tree:
+            if len(tree[u]) == 1:
+                leafs.add(u)
+
+        parents = {}
+        for leaf in leafs:
+            parent = list(tree[leaf])[0]
+
+            if not parent in parents:
+                parents[parent] = []
+
+            parents[parent].append(leaf)
+
+        for parent in parents:
+            if not parent in tree:
+                print(-1)
+                return
+
+            leafs_count = len(parents[parent])
+
+            if leafs_count > 2:
+                print(-1)
+                return
+            elif leafs_count == 2 and len(tree[parent]) == 3:
+                for leaf in parents[parent]:
+                    remove_branch(tree, parent, leaf)
+
+                found = True
+                ans += 1
+                cut = list(tree[parent])[0]
+                cuts.append([parent, cut])
+                remove_branch(tree, parent, cut)
+            elif leafs_count == 1:
+                if len(tree[parent]) == 1:
+                    print(-1)
+                    return
+                elif len(tree[parent]) == 2:
+                    leaf = parents[parent][0]
+                    remove_branch(tree, parent, leaf)
+
+                    leaf2 = list(tree[parent])[0]
+                    remove_branch(tree, parent, leaf2)
+
+                    if leaf2 in tree:
+                        found = True
+                        for cut in list(tree[leaf2]):
+                            ans += 1
+                            cuts.append([leaf2, cut])
+                            remove_branch(tree, leaf2, cut)
+
+    print(ans)
+
+    ans_edges = []
+    for u, v in cuts:
+        ans_edges.append(str(edges[u][v]))
+
+    print(" ".join(ans_edges))
 
 
 t = int(input())
@@ -9,4 +112,8 @@ for i in range(0, t):
     for i in range(n - 1):
         u, v = map(int, input().split())
         e.append([u, v])
+
+    # try:
     task(n, e)
+    # except:
+    # print(n, e)
