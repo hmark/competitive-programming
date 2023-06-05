@@ -1,0 +1,7 @@
+def task(n, s):
+    print(n, s)
+
+
+n = int(input())
+s = input()
+task(n, s)
