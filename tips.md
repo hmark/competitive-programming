@@ -4,3 +4,8 @@
 ab = [[x, y] for x, y in zip(a, b)]
 ab.sort()
 ```
+### Fast IO input
+```python
+import sys
+input = sys.stdin.readline
+```
