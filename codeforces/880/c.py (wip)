@@ -1,0 +1,36 @@
+import sys
+import math
+from collections import deque
+
+input = sys.stdin.readline
+
+
+def task(a, b, c, k):
+    if max(a, b) - c > 1:
+        print(-1)
+        return
+
+    if max(a, b) > c:
+        print(-1)
+        return
+
+    fromA = 10 ^ (a - 1)
+    toA = 10 ^ a - 1
+
+    fromB = 10 ^ (b - 1)
+    toB = 10 ^ (b - 1)
+
+    fromC = 10 ^ (c - 1)
+    toC = 10 ^ c - 1
+
+    for i in range(fromA, toA + 1):
+        diff1 = fromC - fromA
+        diff2 = toC - toA
+
+    print(a, b, c, k)
+
+
+t = int(input())
+for _ in range(t):
+    a, b, c, k = map(int, input().split())
+    task(a, b, c, k)
