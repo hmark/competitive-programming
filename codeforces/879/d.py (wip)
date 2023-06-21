@@ -1,0 +1,18 @@
+import sys
+import math
+from collections import deque
+
+input = sys.stdin.readline
+
+
+def task(n, m, lr):
+    print(n, m, lr)
+
+
+t = int(input())
+for _ in range(t):
+    n, m = map(int, input().split())
+    lr = []
+    for i in range(n):
+        lr.append(list(map(int, input().split())))
+    task(n, m, lr)
