@@ -1,0 +1,55 @@
+import sys
+import math
+from collections import deque
+
+
+def task(ha, wa, a, hb, wb, b, hx, wx, x):
+    apts = []
+    for i in range(ha):
+        for j in range(wa):
+            if a[i][j] == '#':
+                apts.append([i, j])
+
+    bpts = []
+    for i in range(hb):
+        for j in range(wb):
+            if b[i][j] == '#':
+                bpts.append([i, j])
+    if len(bpts) > 0:
+        offseti = bpts[0][0]
+        offsetj = bpts[0][1]
+        for bpt in bpts:
+            bpt[0] -= offseti
+            bpt[1] -= offsetj
+
+    xs = {}
+    xpts = []
+    for i in range(hx):
+        for j in range(wx):
+            if x[i][j] == '#':
+                xpts.append([i, j, False])
+
+    if len(xpts) > 0:
+        offseti = xpts[0][0]
+        offsetj = xpts[0][1]
+        for xpt in xpts:
+            xpt[0] -= offseti
+            xpt[1] -= offsetj
+            xs[str(xpt[0]) + str('-') + str(xpt[1])] = False
+
+    print(xs)
+
+
+ha, wa = map(int, input().split())
+a = []
+for _ in range(ha):
+    a.append(list(input()))
+hb, wb = map(int, input().split())
+b = []
+for _ in range(hb):
+    b.append(list(input()))
+hx, wx = map(int, input().split())
+x = []
+for _ in range(hx):
+    x.append(list(input()))
+task(ha, wa, a, hb, wb, b, hx, wx, x)
