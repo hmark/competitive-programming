@@ -1,0 +1,34 @@
+import sys
+import math
+from collections import deque
+
+input = sys.stdin.readline
+
+
+def task(n, a):
+    maxx = {}
+    dp = [0] * n
+    for i in range(n):
+        b = a[i]
+        if i > 0:
+            dp[i] = dp[i - 1]
+
+        if b in maxx:
+            # print(dp[i - 1], dp[maxx[b]], i,  maxx[b])
+            if dp[maxx[b] - 1] == dp[maxx[b]]:
+                dp[i] = max(dp[i], dp[maxx[b]] + i + 1 - maxx[b])
+            else:
+                dp[i] = max(dp[i], dp[maxx[b]] + i - maxx[b])
+
+        maxx[b] = i
+
+        # print(i, b, maxx, dp)
+
+    print(dp[n - 1])
+
+
+t = int(input())
+for _ in range(t):
+    n = int(input())
+    a = list(map(int, input().split()))
+    task(n, a)
