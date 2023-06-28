@@ -1,0 +1,84 @@
+import sys
+import math
+from collections import deque
+
+input = sys.stdin.readline
+
+
+def task(n, m, uvy):
+    g = {}
+
+    for i in range(m):
+        u, v, y = uvy[i]
+
+        if not u in g:
+            g[u] = []
+
+        if not v in g:
+            g[v] = []
+
+        g[u].append((v, y))
+        g[v].append((u, y))
+
+    if not n in g:
+        print('inf')
+        return
+
+    visited = set()
+    queue = deque()
+    queue.append(1)
+
+    ans = []
+    total = 0
+    s = ["0"] * n
+    while len(queue) > 0:
+        curr = queue.popleft()
+
+        if curr in visited:
+            continue
+
+        visited.add(curr)
+        s[curr - 1] = "1"
+        g[curr].sort(key=lambda x: x[1])
+
+        # print(g, curr)
+
+        while len(g[curr]):
+            picked = g[curr].pop()
+
+            if not picked[0] in visited:
+                queue.append(picked[0])
+            else:
+                continue
+
+            t = picked[1]
+
+            for i in reversed(range(0, len(g[curr]))):
+                if g[curr][i][0] in visited:
+                    g[curr].pop()
+                    continue
+
+                if t == g[curr][i][1]:
+                    picked = g[curr].pop()
+                    queue.append(picked[0])
+                else:
+                    t = g[curr][i][1]
+                    break
+
+            # print("".join(s), t)
+            ans.append(["".join(s), t])
+            total += t
+
+            for i in queue:
+                s[i - 1] = "1"
+
+    print(total, len(ans))
+    for i in range(len(ans)):
+        print(ans[i][0], ans[i][1])
+
+
+n, m = map(int, input().split())
+uvy = []
+for i in range(m):
+    uvy.append(list(map(int, input().split())))
+task(n, m, uvy)
