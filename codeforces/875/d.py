@@ -1,3 +1,5 @@
+# It's official solution in the editorial but throws TLE :D
+
 def task(n, a, b):
     ab = [(x, y) for x, y in zip(a, b)]
     ab.sort()
