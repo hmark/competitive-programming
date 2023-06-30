@@ -29,6 +29,14 @@ def task(n, k, x):
                     ans.append(str(j))
                 ans.append(str(i))
                 found = True
+                break
+
+            elif (n - j) % i == 0:
+                for _ in range((n - j) // i):
+                    ans.append(str(i))
+                ans.append(str(j))
+                found = True
+                break
 
     if len(ans) > 0:
         print("YES")
