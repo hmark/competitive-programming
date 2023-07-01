@@ -1,0 +1,80 @@
+import sys
+import math
+from collections import deque
+
+
+def task(n, a, s):
+    dpex = []
+    # dpe = []
+    dpx = []
+    for i in range(n):
+        # dpe.append([0, 0, 0, 0])
+        dpx.append([0, 0, 0, 0])
+        dpex.append([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
+
+    for i in reversed(range(n)):
+        # if s[i] == 'E':
+        #     if a[i] == 0:
+        #         dpe[i][0] += 1
+        #     elif a[i] == 1:
+        #         dpe[i][1] += 1
+        #     elif a[i] == 2:
+        #         dpe[i][2] += 1
+        #     else:
+        #         dpe[i][3] += 1
+        if s[i] == 'X':
+            if a[i] == 0:
+                dpx[i][0] += 1
+            elif a[i] == 1:
+                dpx[i][1] += 1
+            elif a[i] == 2:
+                dpx[i][2] += 1
+            else:
+                dpx[i][3] += 1
+
+        if i < n - 1:
+            for j in range(4):
+                # dpe[i][j] += dpe[i + 1][j]
+                dpx[i][j] += dpx[i + 1][j]
+
+            for j in range(16):
+                dpex[i][j] += dpex[i + 1][j]
+
+        if s[i] == 'E':
+            k = min(3, a[i])
+            for j in range(4):
+                # dpex[i][min(3, max(j, k))] = dpx[i][j]
+                dpex[i][k * 4 + j] += dpx[i][j]
+
+    # print(dpe)
+    # print(dpx)
+    # print(dpex)
+
+    ans = 0
+    b = set()
+    for i in range(n):
+        if s[i] == 'M':
+            for j in range(4):
+                for k in range(4):
+                    b.clear()
+                    b.add(a[i])
+                    b.add(j)
+                    b.add(k)
+                    mn = min(b)
+
+                    if mn == 0:
+                        if not 1 in b and j != 1 and k != 1:
+                            ans += dpex[i][j * 4 + k]
+                        elif not 2 in b and j != 1 and k != 1:
+                            ans += 2 * dpex[i][j * 4 + k]
+                        elif not 3 in b and j != 1 and k != 1:
+                            ans += 3 * dpex[i][j * 4 + k]
+                        # print(i, j, k, mn, ans, dpex[i][j * 4 + k])
+
+    print(ans)
+
+
+n = int(input())
+a = list(map(int, input().split()))
+s = input()
+task(n, a, s)

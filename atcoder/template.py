@@ -6,15 +6,7 @@ input = sys.stdin.readline
 
 
 def task(n, a):
-    weeks = []
-
-    for i in range(n):
-        week = 0
-        for j in range(i * 7, min((i + 1) * 7, len(a))):
-            week += a[j]
-        weeks.append(str(week))
-
-    print(" ".join(weeks))
+    print(n, a)
 
 
 n = int(input())
