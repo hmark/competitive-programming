@@ -1,0 +1,32 @@
+import sys
+import math
+from collections import deque
+
+input = sys.stdin.readline
+
+
+def task(n, a):
+    b = set()
+    b.add(a[0])
+
+    for i in range(1, n):
+        c = set()
+        c.add(a[i])
+        b = list(b)
+        for j in range(len(b)):
+            c.add(a[i] ^ b[j])
+        b = c
+
+    b = list(b)
+    mx = 0
+    for i in range(len(b)):
+        for j in range(i + 1, len(b)):
+            mx = max(mx, b[i] ^ b[j])
+    print(mx)
+
+
+t = int(input())
+for _ in range(t):
+    n = int(input())
+    a = list(map(int, input().split()))
+    task(n, a)
