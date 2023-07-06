@@ -10,6 +10,10 @@ def task(n, a):
     for i in range(1, n):
         mn &= a[i]
 
+    if mn >= 1:
+        print(1)
+        return
+
     b = None
     ans = 0
     for i in range(n):
