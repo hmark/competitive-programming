@@ -1,0 +1,82 @@
+import sys
+import math
+from collections import deque
+
+input = sys.stdin.readline
+
+
+def task(n, c):
+    ans = max(c)
+
+    start = None
+    end = None
+
+    for i in range(n):
+        if c[i] > 0:
+            start = i
+            break
+
+    for i in reversed(range(n)):
+        if c[i] > 0:
+            end = i + 1
+            break
+
+    if start == None or end == None:
+        print(ans)
+        return
+
+    c = c[start:end]
+
+    found = True
+    while found:
+        n = len(c)
+        found = False
+        newc = []
+        for i in range(1, n - 1):
+            if c[i] < c[i - 1] and c[i] < c[i + 1]:
+                newc.append(c[i - 1] + c[i + 1])
+                found = True
+            else:
+                newc.append(c[i - 1])
+                if i == n - 1:
+                    newc.append(c[i])
+                    newc.append(c[i + 1])
+        if found:
+            c = newc
+
+    n = len(c)
+    start = None
+    end = None
+    for i in range(n):
+        if c[i] > 0:
+            start = i
+            break
+
+    for i in reversed(range(n)):
+        if c[i] > 0:
+            end = i + 1
+            break
+
+    if start == None or end == None:
+        print(ans)
+        return
+
+    ans = max(ans, max(c))
+    ans0 = 0
+    ans1 = 0
+
+    for i in range(len(c)):
+        if i % 2 == 0:
+            ans0 += c[i]
+        else:
+            ans1 += c[i]
+
+    ans = max(ans, ans0, ans1)
+    print(ans)
+
+
+t = int(input())
+for _ in range(t):
+    n = int(input())
+    c = list(map(int, input().split()))
+    task(n, c)
