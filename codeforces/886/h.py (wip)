@@ -1,0 +1,23 @@
+import sys
+import math
+from collections import deque
+
+input = sys.stdin.readline
+
+
+def task(n, m, a, b, d):
+    print(n, m, a, b, d)
+
+
+t = int(input())
+for _ in range(t):
+    n, m = map(int, input().split())
+    a = []
+    b = []
+    d = []
+    for i in range(m):
+        aa, bb, dd = map(int, input().split())
+        a.append(aa)
+        b.append(bb)
+        d.append(dd)
+    task(n, m, a, b, d)
