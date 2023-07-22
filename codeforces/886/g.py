@@ -6,31 +6,37 @@ input = sys.stdin.readline
 
 
 def task(n, x, y):
-    ver = []
-    hor = []
-    fall = []
-    rise = []
+    ver = dict()
+    hor = dict()
+    fall = dict()
+    rise = dict()
 
     for i in range(n):
-        hor.append(x[i])
-        ver.append(y[i])
-        fall.append(x[i] + y[i])
-        rise.append(x[i] - y[i])
+        hor.setdefault(x[i], 0)
+        hor[x[i]] += 1
 
-    arrs = [ver, hor, fall, rise]
+        ver.setdefault(y[i], 0)
+        ver[y[i]] += 1
+
+        fall.setdefault(x[i] + y[i], 0)
+        fall[x[i] + y[i]] += 1
+
+        rise.setdefault(x[i] - y[i], 0)
+        rise[x[i] - y[i]] += 1
+
     ans = 0
 
-    for arr in arrs:
-        c = dict()
+    for key, value in hor.items():
+        ans += value * (value - 1)
 
-        for value in arr:
-            if not value in c:
-                c[value] = 0
-            c[value] += 1
+    for key, value in ver.items():
+        ans += value * (value - 1)
 
-        for value in c:
-            if c[value] > 1:
-                ans += c[value] * (c[value] - 1)
+    for key, value in fall.items():
+        ans += value * (value - 1)
+
+    for key, value in rise.items():
+        ans += value * (value - 1)
 
     print(ans)
 
