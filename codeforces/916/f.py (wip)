@@ -1,0 +1,81 @@
+import sys
+import math
+from collections import deque
+
+input = sys.stdin.readline
+
+
+def task(n, p):
+    g = {}
+    for i in range(1, n + 1):
+        g[i] = set()
+
+    i = 2
+    for pp in p:
+        g[pp].add(i)
+        i += 1
+
+    depths = []
+    for i in range(n + 1):
+        depths.append(0)
+
+    depth_leafs = []
+    for i in range(n + 1):
+        depth_leafs.append(deque())
+
+    q = deque([1])
+    while len(q) > 0:
+        curr = q.popleft()
+        if len(g[curr]) == 0:
+            depth_leafs[depths[curr]].append(curr)
+        else:
+            for node in g[curr]:
+                if depths[node] == 0:
+                    depths[node] = depths[curr] + 1
+                    q.append(node)
+
+    d = n
+    leaf1 = None
+    leaf2 = None
+    d1 = 0
+    d2 = 0
+    ans = 0
+
+    # print(n, p)
+    # print(g)
+    # print(depths)
+    # print(depth_leafs)
+
+    while d > 0:
+        if len(depth_leafs[d]) > 0:
+            if leaf1 == None:
+                leaf1 = depth_leafs[d].pop()
+                d1 = d
+            elif leaf2 == None:
+                leaf2 = depth_leafs[d].pop()
+                d2 = d
+        else:
+            d -= 1
+        if leaf1 != None and leaf2 != None:
+            ans += 1
+
+            g[p[leaf1 - 2]].remove(leaf1)
+            if len(g[p[leaf1 - 2]]) == 0:
+                depth_leafs[d1 - 1].appendleft(p[leaf1 - 2])
+
+            g[p[leaf2 - 2]].remove(leaf2)
+            if len(g[p[leaf2 - 2]]) == 0:
+                depth_leafs[d2 - 1].appendleft(p[leaf2 - 2])
+
+            leaf1 = None
+            leaf2 = None
+            d = max(d1, d2) - 1
+
+    print(ans)
+
+
+t = int(input())
+for _ in range(t):
+    n = int(input())
+    p = list(map(int, input().split()))
+    task(n, p)
