@@ -40,7 +40,7 @@ def task(n, m, k, a):
                 in_water = False
                 pos += 1
     
-        print(pos, k)
+        # print(pos, k)
     
     if pos == n:
         print("YES")
