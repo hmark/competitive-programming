@@ -27,3 +27,8 @@ a.sort(key=lambda x: x[1])
 a = [[5,3],[4,7]]
 a.sort(key=lambda x: (x[1], -x[0]), reverse=True)
 ```
+
+### Alphabet range
+```python
+a = list(map(chr, range(97, 123)))
+```
